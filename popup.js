@@ -1,9 +1,11 @@
 const listEl = document.getElementById("entry-list");
 const emptyEl = document.getElementById("empty-state");
 const countEl = document.getElementById("entry-count");
+const headerCountEl = document.getElementById("header-count");
 const syncBtn = document.getElementById("sync-btn");
+const syncBtnLabel = syncBtn.querySelector(".btn-label");
 const settingsBtn = document.getElementById("settings-btn");
-const statusEl = document.getElementById("status-banner");
+const statusEl = document.getElementById("toast");
 const template = document.getElementById("entry-template");
 
 let entries = [];
@@ -16,16 +18,22 @@ function load() {
   });
 }
 
+function avatarInitial(email) {
+  return (email || "?").trim().charAt(0) || "?";
+}
+
 function render() {
   listEl.innerHTML = "";
   emptyEl.hidden = entries.length !== 0;
   countEl.textContent = `${entries.length} saved`;
+  headerCountEl.textContent = entries.length === 1 ? "1 collected" : `${entries.length} collected`;
   syncBtn.disabled = entries.length === 0;
 
   for (const entry of entries) {
     const node = template.content.cloneNode(true);
     const li = node.querySelector(".entry");
     li.dataset.id = entry.id;
+    node.querySelector(".entry-avatar").textContent = avatarInitial(entry.email);
     node.querySelector(".entry-title").textContent = entry.title || "(untitled)";
     node.querySelector(".entry-email").textContent = entry.email;
 
@@ -49,10 +57,14 @@ function deleteEntry(id) {
 function showStatus(message, type) {
   if (statusTimer) clearTimeout(statusTimer);
   statusEl.textContent = message;
-  statusEl.className = `status-banner status-${type}`;
+  statusEl.className = `toast toast-${type}`;
   statusEl.hidden = false;
+  requestAnimationFrame(() => statusEl.classList.add("show"));
   statusTimer = setTimeout(() => {
-    statusEl.hidden = true;
+    statusEl.classList.remove("show");
+    setTimeout(() => {
+      statusEl.hidden = true;
+    }, 180);
   }, 4000);
 }
 
@@ -68,7 +80,8 @@ async function sync() {
   if (snapshot.length === 0) return;
 
   syncBtn.disabled = true;
-  syncBtn.textContent = "Syncing...";
+  syncBtn.classList.add("is-loading");
+  syncBtnLabel.textContent = "Syncing...";
 
   try {
     const headers = { "Content-Type": "application/json" };
@@ -93,7 +106,8 @@ async function sync() {
   } catch (err) {
     showStatus(`Sync failed: ${err.message}`, "error");
   } finally {
-    syncBtn.textContent = "Sync All";
+    syncBtn.classList.remove("is-loading");
+    syncBtnLabel.textContent = "Sync All";
     syncBtn.disabled = entries.length === 0;
   }
 }

@@ -8,50 +8,84 @@
     .ext-popup {
       position: fixed;
       z-index: 2147483647;
-      width: 260px;
-      background: #ffffff;
-      color: #1a1a1a;
-      border-radius: 10px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.06);
+      width: 270px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px) saturate(1.4);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      color: #16182b;
+      border-radius: 14px;
+      border: 1px solid rgba(15,23,42,0.06);
+      box-shadow: 0 16px 40px rgba(15,23,42,0.22), 0 0 0 1px rgba(15,23,42,0.04);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-size: 13px;
       overflow: hidden;
+      animation: ext-popup-in 0.16s ease;
+    }
+    @keyframes ext-popup-in {
+      from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
     @media (prefers-color-scheme: dark) {
-      .ext-popup { background: #26272b; color: #f2f2f2; box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08); }
+      .ext-popup {
+        background: rgba(27,29,44,0.92);
+        color: #f1f1f6;
+        border-color: rgba(255,255,255,0.08);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.05);
+      }
     }
     .ext-popup[hidden] { display: none; }
     .ext-popup-header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 10px 12px;
-      font-weight: 600;
-      border-bottom: 1px solid rgba(127,127,127,0.2);
+      gap: 8px;
+      padding: 11px 12px;
+      font-weight: 650;
+      border-bottom: 1px solid rgba(127,127,127,0.16);
     }
+    .ext-popup-header-icon {
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    }
+    .ext-popup-header-title { flex: 1; }
     .ext-close {
       background: none;
       border: none;
-      font-size: 16px;
+      font-size: 15px;
       cursor: pointer;
       color: inherit;
-      opacity: 0.6;
+      opacity: 0.55;
       line-height: 1;
+      border-radius: 6px;
+      width: 22px;
+      height: 22px;
+      transition: opacity 0.15s ease, background-color 0.15s ease;
     }
-    .ext-close:hover { opacity: 1; }
-    .ext-popup-body { padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
-    .ext-popup-body label { font-size: 11px; font-weight: 600; opacity: 0.7; }
+    .ext-close:hover { opacity: 1; background: rgba(99,102,241,0.14); }
+    .ext-popup-body { padding: 11px 12px; display: flex; flex-direction: column; gap: 9px; }
+    .ext-popup-body label { font-size: 10.5px; font-weight: 650; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.02em; }
     .ext-popup-body input, .ext-popup-body textarea {
       width: 100%;
       box-sizing: border-box;
-      border: 1px solid rgba(127,127,127,0.35);
-      border-radius: 6px;
-      padding: 6px 8px;
-      font-size: 12px;
+      border: 1px solid rgba(127,127,127,0.28);
+      border-radius: 8px;
+      padding: 7px 9px;
+      font-size: 12.5px;
       font-family: inherit;
-      background: transparent;
+      background: rgba(127,127,127,0.06);
       color: inherit;
       resize: vertical;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .ext-popup-body input:focus, .ext-popup-body textarea:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.18);
     }
     .ext-popup-body input[readonly] { opacity: 0.7; }
     .ext-popup-footer {
@@ -60,20 +94,40 @@
       justify-content: flex-end;
       gap: 8px;
       padding: 10px 12px;
-      border-top: 1px solid rgba(127,127,127,0.2);
+      border-top: 1px solid rgba(127,127,127,0.16);
     }
-    .ext-saved-flash { margin-right: auto; color: #16a34a; font-size: 12px; }
+    .ext-saved-flash {
+      margin-right: auto;
+      color: #0f9d63;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      animation: ext-flash-in 0.2s ease;
+    }
+    @keyframes ext-flash-in {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
     .ext-btn {
       border: none;
-      border-radius: 6px;
-      padding: 6px 12px;
+      border-radius: 8px;
+      padding: 6px 13px;
       font-size: 12px;
       cursor: pointer;
-      font-weight: 500;
+      font-weight: 600;
+      transition: transform 0.12s ease, box-shadow 0.15s ease, background-color 0.15s ease;
     }
-    .ext-btn-secondary { background: rgba(127,127,127,0.15); color: inherit; }
-    .ext-btn-primary { background: #2563eb; color: white; }
-    .ext-btn-primary:hover { background: #1d4ed8; }
+    .ext-btn:active { transform: scale(0.96); }
+    .ext-btn-secondary { background: rgba(127,127,127,0.14); color: inherit; }
+    .ext-btn-secondary:hover { background: rgba(127,127,127,0.22); }
+    .ext-btn-primary {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      box-shadow: 0 4px 12px rgba(99,102,241,0.35);
+    }
+    .ext-btn-primary:hover { box-shadow: 0 6px 16px rgba(99,102,241,0.45); }
   `;
 
   let host = null;
@@ -97,7 +151,8 @@
       <style>${POPUP_STYLES}</style>
       <div class="ext-popup" id="ext-popup" hidden>
         <div class="ext-popup-header">
-          <span>Save Email</span>
+          <span class="ext-popup-header-icon" aria-hidden="true"></span>
+          <span class="ext-popup-header-title">Save Email</span>
           <button class="ext-close" id="ext-close" type="button" aria-label="Close">&times;</button>
         </div>
         <div class="ext-popup-body">
@@ -115,7 +170,7 @@
           </div>
         </div>
         <div class="ext-popup-footer">
-          <span class="ext-saved-flash" id="ext-saved-flash" hidden>Saved</span>
+          <span class="ext-saved-flash" id="ext-saved-flash" hidden>&#10003; Saved</span>
           <button class="ext-btn ext-btn-secondary" id="ext-cancel" type="button">Cancel</button>
           <button class="ext-btn ext-btn-primary" id="ext-save" type="button">Save</button>
         </div>

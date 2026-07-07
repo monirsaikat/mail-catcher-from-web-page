@@ -1,19 +1,29 @@
 :root {
   color-scheme: light dark;
-  --bg: #ffffff;
-  --fg: #1a1a1a;
-  --muted: #6b7280;
-  --border: #e5e7eb;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
+  --bg: #f4f5fb;
+  --bg-elevated: #ffffff;
+  --fg: #16182b;
+  --muted: #71758a;
+  --border: rgba(15, 23, 42, 0.08);
+  --shadow-color: rgba(30, 41, 59, 0.10);
+  --accent-1: #6366f1;
+  --accent-2: #8b5cf6;
+  --accent-solid: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-tint: rgba(99, 102, 241, 0.10);
+  --success-fg: #0f9d63;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #1f2023;
-    --fg: #f2f2f2;
-    --muted: #9ca3af;
-    --border: #33343a;
+    --bg: #0e0f18;
+    --bg-elevated: #1b1d2c;
+    --fg: #f1f1f6;
+    --muted: #9497ad;
+    --border: rgba(255, 255, 255, 0.08);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --accent-tint: rgba(129, 140, 248, 0.16);
+    --success-fg: #4ade80;
   }
 }
 
@@ -23,32 +33,73 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: var(--bg);
+  min-height: 100vh;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background:
+    radial-gradient(circle at 15% 0%, var(--accent-tint), transparent 45%),
+    var(--bg);
   color: var(--fg);
+  -webkit-font-smoothing: antialiased;
 }
 
-.options {
-  max-width: 420px;
-  margin: 40px auto;
-  padding: 0 20px;
+.page {
+  display: flex;
+  justify-content: center;
+  padding: 64px 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 20px 50px var(--shadow-color);
+  padding: 28px 28px 26px;
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.brand-icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
 }
 
 h1 {
-  font-size: 18px;
+  font-size: 17px;
+  margin: 2px 0 6px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
 }
 
 .hint {
   color: var(--muted);
-  font-size: 13px;
-  margin-bottom: 20px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.field {
+  margin-bottom: 16px;
 }
 
 label {
   display: block;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
-  margin: 14px 0 6px;
+  margin: 0 0 7px;
 }
 
 .optional {
@@ -59,33 +110,60 @@ label {
 input[type="url"],
 input[type="text"] {
   width: 100%;
-  padding: 8px 10px;
+  padding: 10px 12px;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 9px;
   background: var(--bg);
   color: var(--fg);
   font-size: 13px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+input[type="url"]:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent-solid);
+  box-shadow: 0 0 0 3px var(--accent-tint);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 22px;
 }
 
 .btn {
-  margin-top: 20px;
   border: none;
-  border-radius: 6px;
-  padding: 8px 16px;
+  border-radius: 9px;
+  padding: 10px 18px;
   font-size: 13px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
+  transition: transform 0.12s ease, box-shadow 0.15s ease;
+}
+.btn:active {
+  transform: scale(0.97);
 }
 .btn-primary {
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   color: white;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
 }
 .btn-primary:hover {
-  background: var(--accent-hover);
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.45);
 }
 
 .save-status {
-  margin-left: 10px;
-  color: #16a34a;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--success-fg);
   font-size: 13px;
+  font-weight: 600;
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
 }
