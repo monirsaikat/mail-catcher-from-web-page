@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Email Grabber",
+  "version": "1.0.0",
+  "description": "Highlights emails on any page, lets you save a title/note against them, and syncs saved entries to your own server.",
+  "permissions": ["storage"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Saved Emails"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_page": "options.html"
+}

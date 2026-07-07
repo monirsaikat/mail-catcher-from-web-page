@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Saved Emails</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <h1>Saved Emails</h1>
+        <button id="settings-btn" class="icon-btn" title="Settings" type="button">&#9881;</button>
+      </header>
+
+      <div id="empty-state" class="empty-state" hidden>
+        <p>No saved emails yet.</p>
+        <p class="hint">Click any highlighted email on a webpage to save it here.</p>
+      </div>
+
+      <ul id="entry-list" class="entry-list"></ul>
+
+      <div id="status-banner" class="status-banner" hidden></div>
+
+      <footer class="app-footer">
+        <span id="entry-count" class="entry-count">0 saved</span>
+        <button id="sync-btn" class="btn btn-primary" type="button">Sync All</button>
+      </footer>
+    </div>
+
+    <template id="entry-template">
+      <li class="entry">
+        <div class="entry-main">
+          <div class="entry-title"></div>
+          <div class="entry-email"></div>
+          <div class="entry-note"></div>
+        </div>
+        <button class="entry-delete" title="Delete" type="button">&times;</button>
+      </li>
+    </template>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
